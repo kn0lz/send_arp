@@ -4,3 +4,6 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 SOURCES += main.c
+
+LIBS += -lpcap
+LIBS += -lpthread
