@@ -143,13 +143,8 @@ void *arp_pckt_cap(void *arg)
 
         if(ntohs(eth_hdr->ether_type) == ETHERTYPE_ARP) {
             if(ntohs(eth_arp->ea_hdr.ar_op) == ARPOP_REPLY)   {
-                /*
-                if(eth_arp->arp_spa == receiver_ip.s_addr) memcpy(receiver_mac, eth_arp->arp_sha, ETH_ALEN);
-                else if(eth_arp->arp_spa == sender_ip.s_addr) memcpy(sender_mac, eth_arp->arp_sha, ETH_ALEN);
-                */
-
-                if(*((int *)arg) == 0) memcpy(receiver_mac, eth_arp->arp_sha, ETH_ALEN);
-                else if(*((int *)arg) == 1) memcpy(sender_mac, eth_arp->arp_sha, ETH_ALEN);
+                if(!memcmp(eth_arp->arp_spa, &sender_ip, 4)) memcpy(sender_mac, eth_arp->arp_sha, ETH_ALEN);
+                else if(!memcmp(eth_arp->arp_spa, &receiver_ip, 4)) memcpy(receiver_mac, eth_arp->arp_sha, ETH_ALEN);
 
                 pthread_exit(NULL);
             }
